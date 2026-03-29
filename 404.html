@@ -1,18 +1,190 @@
-<!DOCTYPE html> <html lang=en> <head> <meta charset=utf-8> <meta content="width=device-width,initial-scale=1" name=viewport> <meta content=#333333 name=theme-color> <base href=/ > <link href=manifest.json rel=manifest crossorigin=use-credentials> <script>__SAPPER__={baseUrl:"",preloaded:[void 0]};if('serviceWorker' in navigator)navigator.serviceWorker.register('/service-worker.js');(function(){try{eval("async function x(){}");var main="/client/client.0edc4cf6.js"}catch(e){main="/client/legacy/client.4ef9bd15.js"};var s=document.createElement("script");try{new Function("if(0)import('')")();s.src=main;s.type="module";s.crossOrigin="use-credentials";}catch(e){s.src="/client/shimport@2.0.5.js";s.setAttribute("data-main",main);}document.head.appendChild(s);}());</script> <link href=client/client-31a52aa5.css rel=stylesheet><link href=client/createOctokit-a85f76c7.css rel=stylesheet><link href=client/index-b0b6455a.css rel=stylesheet> <link href=https://status.tritone.dev/themes/dark.css rel=stylesheet><link href=https://status.tritone.dev/global.css rel=stylesheet><link href=https://raw.githubusercontent.com/upptime/upptime/master/assets/upptime-icon.svg rel=icon type=image/svg><link href=/logo-192.png rel=icon type=image/png> <link href=/client/client.0edc4cf6.js rel=modulepreload as=script crossorigin=use-credentials><link href=/client/client-31a52aa5.css rel=preload as=style><link href=/client/index.39895526.js rel=modulepreload as=script crossorigin=use-credentials><link href=/client/createOctokit.957c3e77.js rel=modulepreload as=script crossorigin=use-credentials><link href=/client/inject_styles.803b7e80.js rel=modulepreload as=script crossorigin=use-credentials><link href=/client/createOctokit-a85f76c7.css rel=preload as=style><link href=/client/index-b0b6455a.css rel=preload as=style></head> <body> <div id=sapper> <nav class=svelte-a08hsz><div class="svelte-a08hsz container"> <ul class=svelte-a08hsz><li><a class=svelte-a08hsz href=https://tritone.dev target=_self>Tritone</a> <li><a class=svelte-a08hsz href=https://github.com/Kyle8973/Tritone target=_self>GitHub</a> <li><a class=svelte-a08hsz href=https://dash.tritone.dev target=_self>Dashboard</a> </li> </ul></div> </nav> <main class=container></main> <footer class=svelte-jbr799><p>Made with ❤️ by Kyle8973</p> </footer></div> <script> try {
-        if (typeof window !== "undefined" && window.navigator && navigator.serviceWorker) {
-          navigator.serviceWorker.getRegistrations().then(function (registrations) {
-            for (let registration of registrations) {
-              registration.unregister();
-            }
-          });
-        }
-        if (typeof window !== "undefined" && "caches" in window) {
-          caches.keys().then(function (keyList) {
-            return Promise.all(
-              keyList.map(function (key) {
-                return caches.delete(key);
-              })
-            );
-          });
-        }
-      } catch (error) {} </script> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Page Not Found - Tritone</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#a855f7" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .e404-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .e404-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(168,85,247,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .e404-num {
+      font-family: var(--ff-display);
+      font-size: clamp(120px, 20vw, 200px);
+      line-height: 0.85;
+      color: var(--text);
+      letter-spacing: -4px;
+      position: relative;
+    }
+    .e404-num .accent { color: var(--accent); }
+    .e404-num::after {
+      content: "404";
+      position: absolute;
+      inset: 0;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(168,85,247,0.15);
+      transform: translate(4px, 4px);
+      z-index: -1;
+    }
+    .e404-tag {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(168,85,247,0.6);
+      margin: 20px 0 16px;
+    }
+    .e404-title {
+      font-family: var(--ff-display);
+      font-size: clamp(28px, 5vw, 48px);
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .e404-title em { color: var(--accent); font-style: normal; }
+    .e404-desc {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 420px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .e404-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+    .e404-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-width: 600px;
+      width: 100%;
+    }
+    .e404-link.hidden { display: none; }
+    .e404-link {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      text-decoration: none;
+      text-align: left;
+      transition: border-color 0.2s, background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .e404-link:hover {
+      border-color: rgba(168,85,247,0.3);
+      background: rgba(168,85,247,0.04);
+    }
+    .e404-link-icon { font-size: 18px; flex-shrink: 0; }
+    .e404-link-label { font-size: 13px; font-weight: 600; color: var(--text); }
+    .e404-link-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .e404-glitch {
+      position: absolute;
+      font-family: var(--ff-display);
+      font-size: clamp(80px, 14vw, 140px);
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(168,85,247,0.06);
+      letter-spacing: -4px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+    }
+    @media (max-width: 600px) {
+      .e404-links { grid-template-columns: 1fr 1fr; }
+      .e404-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <nav>
+    <a href="/" class="nav-logo">TRI<span>T</span>ONE</a>
+    <ul class="nav-links">
+      <li><a href="/features.html">Features</a></li>
+      <li><a href="/download.html">Download</a></li>
+      <li><a href="/changelog.html">Changelog</a></li>
+      <li><a href="/faq.html">FAQ</a></li>
+    </ul>
+    <a href="https://github.com/Kyle8973/Tritone" target="_blank" class="nav-cta">GitHub &#8599;</a>
+  </nav>
+
+  <div class="e404-wrap">
+    <div class="e404-glitch" aria-hidden="true">404</div>
+    <div class="e404-num">4<span class="accent">0</span>4</div>
+    <div class="e404-tag">Track Not Found</div>
+    <div class="e404-title">This page doesn't <em>exist</em></div>
+    <p class="e404-desc">The page you are looking for may have moved, been renamed, or never existed. Try one of the links below to get back on track.</p>
+    <div class="e404-actions">
+      <a href="/" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Back to Home
+      </a>
+      <a href="/download.html" class="btn-secondary">Download &#8594;</a>
+    </div>
+    <div class="e404-links" id="e404-links">
+      <a href="/features.html" class="e404-link"><span class="e404-link-icon">&#10024;</span><div><div class="e404-link-label">Features</div><div class="e404-link-sub">What Tritone Can Do</div></div></a>
+      <a href="/setup.html" class="e404-link"><span class="e404-link-icon">&#128218;</span><div><div class="e404-link-label">Setup Guide</div><div class="e404-link-sub">Get Connected</div></div></a>
+      <a href="/changelog.html" class="e404-link"><span class="e404-link-icon">&#128196;</span><div><div class="e404-link-label">Changelog</div><div class="e404-link-sub">Release History</div></div></a>
+      <a href="/faq.html" class="e404-link"><span class="e404-link-icon">&#10067;</span><div><div class="e404-link-label">FAQ</div><div class="e404-link-sub">Common Questions</div></div></a>
+      <a href="/privacy.html" class="e404-link"><span class="e404-link-icon">&#x1f512;</span><div><div class="e404-link-label">Privacy</div><div class="e404-link-sub">Data Privacy</div></div></a>
+      <a href="/community.html" class="e404-link"><span class="e404-link-icon">&#128101;</span><div><div class="e404-link-label">Community</div><div class="e404-link-sub">Get Involved</div></div></a>
+      <a href="/comparison.html" class="e404-link"><span class="e404-link-icon">&#9878;</span><div><div class="e404-link-label">Why Tritone</div><div class="e404-link-sub">Vs Spotify &amp; Others</div></div></a>
+      <a href="https://github.com/Kyle8973/Tritone/issues" target="_blank" class="e404-link"><span class="e404-link-icon">&#128027;</span><div><div class="e404-link-label">Report Issue</div><div class="e404-link-sub">GitHub Issues</div></div></a>
+    </div>
+  </div>
+
+  <script>
+    const cursor=document.getElementById("cursor"),cursorRing=document.getElementById("cursor-ring");
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+"px";cursor.style.top=my+"px"});
+    function animateRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cursorRing.style.left=rx+"px";cursorRing.style.top=ry+"px";requestAnimationFrame(animateRing)}
+    animateRing();
+    document.querySelectorAll("a,button").forEach(el=>{
+      el.addEventListener("mouseenter",()=>{cursor.style.width="20px";cursor.style.height="20px";cursorRing.style.width="56px";cursorRing.style.height="56px";cursorRing.style.borderColor="rgba(168,85,247,0.8)"});
+      el.addEventListener("mouseleave",()=>{cursor.style.width="10px";cursor.style.height="10px";cursorRing.style.width="36px";cursorRing.style.height="36px";cursorRing.style.borderColor="rgba(168,85,247,0.5)"});
+    });
+    const nav=document.querySelector("nav");
+    window.addEventListener("scroll",()=>{nav.style.background=window.scrollY>40?"rgba(6,6,10,0.95)":"rgba(6,6,10,0.72)"},{ passive:true});
+
+    // Show 3 random links
+    const linkEls = Array.from(document.querySelectorAll("#e404-links .e404-link"));
+    for (let i = linkEls.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [linkEls[i], linkEls[j]] = [linkEls[j], linkEls[i]];
+    }
+    linkEls.forEach((el, i) => { if (i >= 3) el.classList.add("hidden"); });
+  </script>
+</body>
+</html>
