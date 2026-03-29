@@ -1,36 +1,72 @@
-# Change these first
-owner: upptime # Your GitHub organization or username, where this repository lives
-repo: upptime # The name of this repository
+owner: Kyle8973
+repo: Tritone-Status
+userAgent: Tritone-Status
+baseUrl: https://status.tritone.dev
 
 sites:
-  - name: Google
-    url: https://www.google.com
-  - name: Wikipedia
-    url: https://en.wikipedia.org
-  - name: Hacker News
-    url: https://news.ycombinator.com
-  - name: Test Broken Site
-    url: https://thissitedoesnotexist.koj.co
-  - name: IPv6 test
-    url: forwardemail.net
-    port: 80
-    check: "tcp-ping"
-    ipv6: true
+  - name: Tritone Website
+    url: https://tritone.dev
+    group: Tritone
+
+  - name: GitHub Repository
+    url: https://github.com/Kyle8973/Tritone
+    group: Tritone
+
+  - name: GitHub Status API
+    url: https://www.githubstatus.com/api/v2/status.json
+    group: Integrations
+
+  - name: Last.FM API
+    url: https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&format=json&api_key=test
+    expectedStatusCodes:
+      - 200
+      - 403
+    group: Integrations
+
+  - name: Discord API
+    url: https://discord.com/api/v10/gateway
+    group: Integrations
+
+  - name: Google Fonts API
+    url: https://fonts.googleapis.com/css2?family=Roboto
+    group: Integrations
+
+  - name: LRCLIB Lyrics API
+    url: https://lrclib.net/api/get?artist_name=test&track_name=test&album_name=test
+    expectedStatusCodes:
+      - 200
+      - 404
+    group: Integrations
+
+  - name: TheAudioDB API
+    url: https://www.theaudiodb.com/api/v1/json/2/search.php?s=coldplay
+    group: Integrations
+
+  - name: Wikipedia API
+    url: https://en.wikipedia.org/api/rest_v1/page/summary/Coldplay
+    group: Integrations
+
+  - name: Cloudflare
+    url: https://www.cloudflarestatus.com/api/v2/status.json
+    group: Infrastructure
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
-  cname: demo.upptime.js.org
-  # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/upptime/upptime.js.org/master/static/img/icon.svg
-  name: Upptime
-  introTitle: "**Upptime** is the open-source uptime monitor and status page, powered entirely by GitHub."
-  introMessage: This is a sample status page which uses **real-time** data from our [GitHub repository](https://github.com/upptime/upptime). No server required — just GitHub Actions, Issues, and Pages. [**Get your own for free**](https://github.com/upptime/upptime)
+  cname: status.tritone.dev
+  name: Tritone Status
+  theme: dark
+  introTitle: "😈 Tritone Status"
+  introMessage: "Live status and uptime for Tritone and its dependencies."
   navbar:
-    - title: Status
-      href: /
+    - title: Tritone
+      href: https://tritone.dev
     - title: GitHub
-      href: https://github.com/$OWNER/$REPO
+      href: https://github.com/Kyle8973/Tritone
+    - title: Dashboard
+      href: https://dash.tritone.dev
 
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+notifications:
+  - type: discord
+    webhook: $DISCORD_WEBHOOK
+
+i18n:
+  footer: "Made with ❤️ by Kyle8973"
