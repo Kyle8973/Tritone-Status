@@ -5,19 +5,17 @@
     "icon": "https://icons.duckduckgo.com/ip3/tritone.dev.ico",
     "slug": "tritone-website",
     "status": "up",
-    "uptime": "97.38%",
-    "uptimeDay": "97.38%",
-    "uptimeWeek": "97.38%",
-    "uptimeMonth": "97.38%",
-    "uptimeYear": "97.38%",
+    "uptime": "100.00%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
     "time": 124,
     "timeDay": 124,
     "timeWeek": 124,
     "timeMonth": 124,
     "timeYear": 124,
-    "dailyMinutesDown": {
-      "2026-03-29": 2
-    }
+    "dailyMinutesDown": {}
   },
   {
     "name": "GitHub Repository",
