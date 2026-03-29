@@ -1,18 +1,558 @@
-<!DOCTYPE html> <html lang=en> <head> <meta charset=utf-8> <meta content="width=device-width,initial-scale=1" name=viewport> <meta content=#333333 name=theme-color> <base href=/ > <link href=manifest.json rel=manifest crossorigin=use-credentials> <script>__SAPPER__={baseUrl:"",preloaded:[void 0,{}]};if('serviceWorker' in navigator)navigator.serviceWorker.register('/service-worker.js');(function(){try{eval("async function x(){}");var main="/client/client.0edc4cf6.js"}catch(e){main="/client/legacy/client.4ef9bd15.js"};var s=document.createElement("script");try{new Function("if(0)import('')")();s.src=main;s.type="module";s.crossOrigin="use-credentials";}catch(e){s.src="/client/shimport@2.0.5.js";s.setAttribute("data-main",main);}document.head.appendChild(s);}());</script> <link href=client/client-31a52aa5.css rel=stylesheet><link href=client/createOctokit-a85f76c7.css rel=stylesheet><link href=client/index-b0b6455a.css rel=stylesheet> <title>Tritone Status</title><link href=https://status.tritone.dev/themes/dark.css rel=stylesheet><link href=https://status.tritone.dev/global.css rel=stylesheet><link href=https://raw.githubusercontent.com/upptime/upptime/master/assets/upptime-icon.svg rel=icon type=image/svg><link href=/logo-192.png rel=icon type=image/png> <link href=/client/client.0edc4cf6.js rel=modulepreload as=script crossorigin=use-credentials><link href=/client/client-31a52aa5.css rel=preload as=style><link href=/client/index.39895526.js rel=modulepreload as=script crossorigin=use-credentials><link href=/client/createOctokit.957c3e77.js rel=modulepreload as=script crossorigin=use-credentials><link href=/client/inject_styles.803b7e80.js rel=modulepreload as=script crossorigin=use-credentials><link href=/client/createOctokit-a85f76c7.css rel=preload as=style><link href=/client/index-b0b6455a.css rel=preload as=style></head> <body> <div id=sapper> <nav class=svelte-a08hsz><div class="svelte-a08hsz container"> <ul class=svelte-a08hsz><li><a class=svelte-a08hsz href=https://tritone.dev target=_self>Tritone</a> <li><a class=svelte-a08hsz href=https://github.com/Kyle8973/Tritone target=_self>GitHub</a> <li><a class=svelte-a08hsz href=https://dash.tritone.dev target=_self>Dashboard</a> </li> </ul></div> </nav> <main class=container> <header class=svelte-ngkazm><h1>😈 Tritone Status</h1> <p class="svelte-ngkazm lead">Live status and uptime for Tritone and its dependencies.</header> <section class=svelte-8lnl4f><div class="svelte-68jxue loading"><svg class=svelte-68jxue height=38 stroke=#aaa width=38 xmlns=http://www.w3.org/2000/svg><g fill=none fill-rule=evenodd><g stroke-width=2 transform="translate(1 1)"><circle cx=18 cy=18 r=18 stroke-opacity=.5></circle><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName=transform dur=1s from="0 18 18" repeatCount=indefinite to="360 18 18" type=rotate></animateTransform></path></g></g></svg></div> </section> <section class=svelte-8lnl4f><div class="svelte-68jxue loading"><svg class=svelte-68jxue height=38 stroke=#aaa width=38 xmlns=http://www.w3.org/2000/svg><g fill=none fill-rule=evenodd><g stroke-width=2 transform="translate(1 1)"><circle cx=18 cy=18 r=18 stroke-opacity=.5></circle><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName=transform dur=1s from="0 18 18" repeatCount=indefinite to="360 18 18" type=rotate></animateTransform></path></g></g></svg></div> </section> <div class="svelte-fqsq6s f changed"><h2>Live Status</h2> <form class="svelte-fqsq6s f r"><div><input class=svelte-fqsq6s id=data_day name=d type=radio value=day><label class=svelte-fqsq6s for=data_day>24h</label></div> <div><input class=svelte-fqsq6s id=data_week name=d type=radio value=week checked><label class=svelte-fqsq6s for=data_week>7d</label></div> <div><input class=svelte-fqsq6s id=data_month name=d type=radio value=month><label class=svelte-fqsq6s for=data_month>30d</label></div> <div><input class=svelte-fqsq6s id=data_year name=d type=radio value=year><label class=svelte-fqsq6s for=data_year>1y</label></div> <div><input class=svelte-fqsq6s id=data_all name=d type=radio value=all><label class=svelte-fqsq6s for=data_all>all</label></div></form></div> <section class="svelte-fqsq6s live-status"><div class="svelte-68jxue loading"><svg class=svelte-68jxue height=38 stroke=#aaa width=38 xmlns=http://www.w3.org/2000/svg><g fill=none fill-rule=evenodd><g stroke-width=2 transform="translate(1 1)"><circle cx=18 cy=18 r=18 stroke-opacity=.5></circle><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName=transform dur=1s from="0 18 18" repeatCount=indefinite to="360 18 18" type=rotate></animateTransform></path></g></g></svg></div> </section> <section><div class="svelte-68jxue loading"><svg class=svelte-68jxue height=38 stroke=#aaa width=38 xmlns=http://www.w3.org/2000/svg><g fill=none fill-rule=evenodd><g stroke-width=2 transform="translate(1 1)"><circle cx=18 cy=18 r=18 stroke-opacity=.5></circle><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName=transform dur=1s from="0 18 18" repeatCount=indefinite to="360 18 18" type=rotate></animateTransform></path></g></g></svg></div> </section> <section><div class="svelte-68jxue loading"><svg class=svelte-68jxue height=38 stroke=#aaa width=38 xmlns=http://www.w3.org/2000/svg><g fill=none fill-rule=evenodd><g stroke-width=2 transform="translate(1 1)"><circle cx=18 cy=18 r=18 stroke-opacity=.5></circle><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName=transform dur=1s from="0 18 18" repeatCount=indefinite to="360 18 18" type=rotate></animateTransform></path></g></g></svg></div></section></main> <footer class=svelte-jbr799><p>Made with ❤️ by Kyle8973</p> </footer></div> <script> try {
-        if (typeof window !== "undefined" && window.navigator && navigator.serviceWorker) {
-          navigator.serviceWorker.getRegistrations().then(function (registrations) {
-            for (let registration of registrations) {
-              registration.unregister();
-            }
-          });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tritone Status</title>
+<meta name="description" content="Live status and uptime for Tritone and its dependencies.">
+<meta name="theme-color" content="#a855f7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --accent:      #a855f7;
+    --accent-dim:  #7c3aed;
+    --accent-glow: rgba(168,85,247,0.35);
+    --bg:          #06060a;
+    --bg2:         #0d0d14;
+    --bg3:         #111119;
+    --surface:     rgba(255,255,255,0.04);
+    --border:      rgba(255,255,255,0.08);
+    --text:        #f0edf8;
+    --muted:       rgba(240,237,248,0.65);
+    --green:       #22c55e;
+    --red:         #ef4444;
+    --yellow:      #f59e0b;
+    --ff-display:  'Bebas Neue', sans-serif;
+    --ff-body:     'DM Sans', sans-serif;
+    --ff-mono:     'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff-body);
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Noise */
+body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none; opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+}
+
+/* Grid bg */
+.hero-grid {
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+        linear-gradient(rgba(168,85,247,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168,85,247,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* ── Nav ── */
+nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 68px;
+    background: rgba(6,6,10,0.72);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+    font-family: var(--ff-display);
+    font-size: 26px; letter-spacing: 3px;
+    color: var(--text); text-decoration: none;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+    font-size: 13px; font-weight: 500; color: var(--muted);
+    text-decoration: none; letter-spacing: 0.5px; text-transform: uppercase;
+    transition: color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--text); }
+.nav-cta {
+    font-size: 13px; font-weight: 600; padding: 9px 22px;
+    border: 1px solid var(--accent); border-radius: 6px;
+    color: var(--accent); text-decoration: none; letter-spacing: 0.5px;
+    transition: background 0.2s, color 0.2s;
+}
+.nav-cta:hover { background: var(--accent); color: #000; }
+
+/* ── Wrap ── */
+.wrap {
+    position: relative; z-index: 1;
+    max-width: 900px; margin: 0 auto;
+    padding: 120px 40px 80px;
+}
+
+/* ── Header ── */
+.header { margin-bottom: 56px; }
+.header-eyebrow {
+    font-family: var(--ff-mono);
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+}
+.header-eyebrow::before { content: '—'; opacity: 0.5; }
+.header-title {
+    font-family: var(--ff-display);
+    font-size: clamp(52px, 7vw, 96px);
+    letter-spacing: 3px; text-transform: uppercase;
+    line-height: 0.9; margin-bottom: 16px;
+}
+.header-title span { color: var(--accent); }
+.header-sub {
+    font-size: 15px; color: var(--muted); line-height: 1.7;
+    max-width: 480px; margin-top: 16px;
+}
+
+/* ── Overall banner ── */
+.banner {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 24px; border-radius: 12px;
+    margin-bottom: 48px; font-weight: 600; font-size: 15px;
+    border: 1px solid; position: relative; overflow: hidden;
+}
+.banner::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: 0.3;
+}
+.banner.all-up    { background: rgba(34,197,94,0.06);   border-color: rgba(34,197,94,0.2);   color: var(--green); }
+.banner.some-down { background: rgba(239,68,68,0.06);   border-color: rgba(239,68,68,0.2);   color: var(--red); }
+.banner.degraded  { background: rgba(245,158,11,0.06);  border-color: rgba(245,158,11,0.2);  color: var(--yellow); }
+.banner-icon { font-size: 22px; flex-shrink: 0; }
+.banner-text { flex: 1; }
+.banner-updated { font-family: var(--ff-mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-top: 2px; }
+
+/* ── Group label ── */
+.group-label {
+    font-family: var(--ff-display);
+    font-size: 14px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); margin: 36px 0 12px 2px;
+    display: flex; align-items: center; gap: 10px;
+}
+.group-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── Service card ── */
+.service-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 24px;
+    margin-bottom: 8px; position: relative; overflow: hidden;
+    transition: border-color 0.2s, background 0.2s;
+}
+.service-card:hover {
+    border-color: rgba(168,85,247,0.25);
+    background: var(--bg3);
+}
+.service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(168,85,247,0.3), transparent);
+    opacity: 0; transition: opacity 0.2s;
+}
+.service-card:hover::before { opacity: 1; }
+
+.svc-top {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+}
+.svc-dot {
+    width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+}
+.svc-dot.up      { background: var(--green);  box-shadow: 0 0 8px rgba(34,197,94,0.5); }
+.svc-dot.down    { background: var(--red);    box-shadow: 0 0 8px rgba(239,68,68,0.5); }
+.svc-dot.unknown { background: var(--muted); }
+.svc-info { flex: 1; min-width: 0; }
+.svc-name {
+    font-family: var(--ff-display);
+    font-size: 18px; letter-spacing: 1px; text-transform: uppercase;
+    line-height: 1;
+}
+.svc-url {
+    font-family: var(--ff-mono); font-size: 10px; color: var(--muted);
+    margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 400px;
+}
+.svc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.svc-uptime {
+    font-family: var(--ff-mono); font-size: 13px; color: var(--muted);
+    text-align: right;
+}
+.svc-uptime b { color: var(--text); font-size: 15px; }
+.svc-badge {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 4px; font-weight: 500;
+}
+.badge-up   { background: rgba(34,197,94,0.1);  color: var(--green);  border: 1px solid rgba(34,197,94,0.2); }
+.badge-down { background: rgba(239,68,68,0.1);  color: var(--red);    border: 1px solid rgba(239,68,68,0.2); }
+.badge-unknown { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+
+/* ── History bars ── */
+.bars-wrap { width: 100%; overflow: hidden; }
+.bars {
+    display: flex; align-items: flex-end; gap: 2px;
+    height: 36px; width: 100%;
+}
+.bar {
+    flex: 1; border-radius: 2px; min-width: 0;
+    transition: opacity 0.15s; cursor: default;
+}
+.bar:hover { opacity: 0.75; }
+.bar.up       { background: var(--green); height: 100%; }
+.bar.down     { background: var(--red);   height: 100%; }
+.bar.degraded { background: var(--yellow); height: 100%; }
+.bar.no-data  { background: rgba(255,255,255,0.07); height: 50%; align-self: flex-end; }
+.bars-footer {
+    display: flex; justify-content: space-between;
+    font-family: var(--ff-mono); font-size: 9px; color: rgba(240,237,248,0.2);
+    margin-top: 5px; letter-spacing: 0.5px;
+}
+
+/* ── Incidents ── */
+.incidents-section { margin-top: 48px; }
+.incidents-title {
+    font-family: var(--ff-display);
+    font-size: 28px; letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 16px; color: var(--text);
+}
+.incident-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 24px; margin-bottom: 8px;
+}
+.incident-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+.incident-title  { font-size: 14px; font-weight: 600; flex: 1; }
+.inc-badge {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 4px;
+}
+.inc-badge.investigating { background: rgba(245,158,11,0.1); color: var(--yellow); border: 1px solid rgba(245,158,11,0.2); }
+.inc-badge.resolved      { background: rgba(34,197,94,0.1);  color: var(--green);  border: 1px solid rgba(34,197,94,0.2); }
+.inc-badge.monitoring    { background: rgba(168,85,247,0.1); color: var(--accent); border: 1px solid rgba(168,85,247,0.2); }
+.incident-msg  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.incident-date { font-family: var(--ff-mono); font-size: 10px; color: rgba(240,237,248,0.2); margin-top: 6px; }
+
+/* ── Footer ── */
+footer {
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+}
+.footer-inner {
+    max-width: 900px; margin: 0 auto; padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo {
+    font-family: var(--ff-display);
+    font-size: 20px; letter-spacing: 3px;
+    color: var(--muted); text-decoration: none;
+}
+.footer-logo span { color: var(--accent); }
+.footer-links { display: flex; gap: 28px; list-style: none; }
+.footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--text); }
+.footer-copy { font-family: var(--ff-mono); font-size: 11px; color: rgba(240,237,248,0.2); letter-spacing: 1px; }
+
+/* ── Loading ── */
+.loading {
+    text-align: center; padding: 80px 20px;
+    font-family: var(--ff-mono); font-size: 12px; letter-spacing: 2px;
+    color: var(--muted); text-transform: uppercase;
+}
+.loading-spinner {
+    width: 32px; height: 32px;
+    border: 2px solid rgba(168,85,247,0.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.2); border-radius: 3px; }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .wrap { padding: 100px 16px 60px; }
+    .header-title { font-size: 52px; }
+    .svc-top { flex-wrap: wrap; }
+    .svc-url { max-width: 200px; }
+    .svc-right { gap: 8px; }
+    .svc-uptime { display: none; }
+    .bars { height: 28px; }
+    .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero-grid"></div>
+
+<nav>
+    <a href="https://tritone.dev" class="nav-logo">TRI<span>T</span>ONE</a>
+    <ul class="nav-links">
+        <li><a href="https://tritone.dev">Home</a></li>
+        <li><a href="https://tritone.dev/features">Features</a></li>
+        <li><a href="https://tritone.dev/download">Download</a></li>
+        <li><a href="https://github.com/Kyle8973/Tritone" target="_blank">GitHub</a></li>
+        <li><a href="#" class="active">Status</a></li>
+    </ul>
+    <a href="https://tritone.dev/download" class="nav-cta">Download ⬇</a>
+</nav>
+
+<div class="wrap">
+    <div class="header">
+        <div class="header-eyebrow">System Status</div>
+        <h1 class="header-title">Service<br><span>Status</span></h1>
+        <p class="header-sub">Live uptime monitoring for Tritone and every API it depends on. Updated every 5 minutes via GitHub Actions.</p>
+    </div>
+
+    <div id="content">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            Fetching status...
+        </div>
+    </div>
+
+    <div id="incidents-section" class="incidents-section" style="display:none;">
+        <div class="incidents-title">Incidents</div>
+        <div id="incidents-list"></div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-inner">
+        <a href="https://tritone.dev" class="footer-logo">TRI<span>T</span>ONE</a>
+        <ul class="footer-links">
+            <li><a href="https://tritone.dev">tritone.dev</a></li>
+            <li><a href="https://github.com/Kyle8973/Tritone" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/Kyle8973/Tritone-Status" target="_blank">Status Repo</a></li>
+        </ul>
+        <span class="footer-copy">© 2026 Kyle8973 · MIT License</span>
+    </div>
+</footer>
+
+<script>
+const OWNER = 'Kyle8973';
+const REPO  = 'Tritone-Status';
+const RAW   = `https://raw.githubusercontent.com/${OWNER}/${REPO}/master`;
+const API   = `https://api.github.com/repos/${OWNER}/${REPO}`;
+
+// Map Upptime service slugs to display groups
+const GROUPS = {
+    'Tritone':         ['tritone-website', 'tritone-admin-dashboard', 'github-repository'],
+    'Integrations':    ['github-status-api', 'last-fm-api', 'discord-api', 'google-fonts-api', 'lrclib-lyrics-api', 'theaudiodb-api', 'wikipedia-api'],
+    'Infrastructure':  ['cloudflare'],
+};
+
+async function load() {
+    try {
+        const summary = await fetch(`${RAW}/history/summary.json`).then(r => r.json());
+        render(summary);
+    } catch (e) {
+        document.getElementById('content').innerHTML =
+            '<div class="loading" style="color:var(--red)">⚠ Could not load status data</div>';
+    }
+}
+
+function slugify(name) {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function render(summary) {
+    const content = document.getElementById('content');
+    const services = summary || [];
+
+    // Overall status
+    const allUp   = services.every(s => s.status === 'up');
+    const anyDown = services.some(s  => s.status === 'down');
+    const downCount = services.filter(s => s.status === 'down').length;
+
+    const bannerCls  = allUp ? 'all-up' : anyDown ? 'some-down' : 'degraded';
+    const bannerIcon = allUp ? '✅' : anyDown ? '🚨' : '⚠️';
+    const bannerText = allUp
+        ? 'All systems operational'
+        : anyDown
+            ? `${downCount} system${downCount > 1 ? 's' : ''} experiencing issues`
+            : 'Some systems degraded';
+
+    let html = `
+        <div class="banner ${bannerCls}">
+            <span class="banner-icon">${bannerIcon}</span>
+            <div class="banner-text">
+                <div>${bannerText}</div>
+                <div class="banner-updated">Last checked: ${new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</div>
+            </div>
+        </div>
+    `;
+
+    // Build service lookup
+    const lookup = {};
+    services.forEach(s => {
+        const slug = slugify(s.name);
+        lookup[slug] = s;
+    });
+
+    // Render by group
+    const rendered = new Set();
+
+    Object.entries(GROUPS).forEach(([group, slugs]) => {
+        const groupServices = slugs.map(slug => {
+            // Try exact match first, then fuzzy
+            const exact = lookup[slug];
+            if (exact) return exact;
+            // Try partial match
+            return services.find(s => slugify(s.name).includes(slug.split('-')[0]));
+        }).filter(Boolean);
+
+        if (!groupServices.length) return;
+
+        html += `<div class="group-label">${group}</div>`;
+
+        groupServices.forEach(s => {
+            if (rendered.has(s.name)) return;
+            rendered.add(s.name);
+
+            const status    = s.status || 'unknown';
+            const uptime    = s.uptime  ? parseFloat(s.uptime).toFixed(2) : '100.00';
+            const badgeCls  = status === 'up' ? 'badge-up' : status === 'down' ? 'badge-down' : 'badge-unknown';
+            const badgeTxt  = status === 'up' ? 'Operational' : status === 'down' ? 'Outage' : 'Unknown';
+            const url       = s.url || '';
+
+            // Build 90 day bars from daily data
+            const daily = s.dailySummary || s.daily || [];
+            const bars  = buildBars(daily, 90);
+
+            html += `
+                <div class="service-card">
+                    <div class="svc-top">
+                        <div class="svc-dot ${status}"></div>
+                        <div class="svc-info">
+                            <div class="svc-name">${s.name}</div>
+                            ${url ? `<div class="svc-url">${url}</div>` : ''}
+                        </div>
+                        <div class="svc-right">
+                            <div class="svc-uptime"><b>${uptime}%</b><br>uptime</div>
+                            <span class="svc-badge ${badgeCls}">${badgeTxt}</span>
+                        </div>
+                    </div>
+                    <div class="bars-wrap">
+                        <div class="bars">${bars}</div>
+                        <div class="bars-footer">
+                            <span>90 days ago</span>
+                            <span>${uptime}% uptime</span>
+                            <span>Today</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    });
+
+    // Any services not in groups
+    services.forEach(s => {
+        if (!rendered.has(s.name)) {
+            rendered.add(s.name);
+            const status   = s.status || 'unknown';
+            const uptime   = s.uptime ? parseFloat(s.uptime).toFixed(2) : '100.00';
+            const badgeCls = status === 'up' ? 'badge-up' : status === 'down' ? 'badge-down' : 'badge-unknown';
+            const badgeTxt = status === 'up' ? 'Operational' : status === 'down' ? 'Outage' : 'Unknown';
+            const daily    = s.dailySummary || s.daily || [];
+            const bars     = buildBars(daily, 90);
+            html += `
+                <div class="service-card">
+                    <div class="svc-top">
+                        <div class="svc-dot ${status}"></div>
+                        <div class="svc-info">
+                            <div class="svc-name">${s.name}</div>
+                        </div>
+                        <div class="svc-right">
+                            <div class="svc-uptime"><b>${uptime}%</b><br>uptime</div>
+                            <span class="svc-badge ${badgeCls}">${badgeTxt}</span>
+                        </div>
+                    </div>
+                    <div class="bars-wrap">
+                        <div class="bars">${bars}</div>
+                        <div class="bars-footer">
+                            <span>90 days ago</span>
+                            <span>${uptime}% uptime</span>
+                            <span>Today</span>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
-        if (typeof window !== "undefined" && "caches" in window) {
-          caches.keys().then(function (keyList) {
-            return Promise.all(
-              keyList.map(function (key) {
-                return caches.delete(key);
-              })
-            );
-          });
-        }
-      } catch (error) {} </script> 
+    });
+
+    content.innerHTML = html;
+
+    // Load incidents from GitHub Issues
+    loadIncidents();
+}
+
+function buildBars(daily, days) {
+    if (!daily || !daily.length) {
+        // No data — render empty bars
+        return Array(days).fill('<div class="bar no-data" title="No data"></div>').join('');
+    }
+
+    // Ensure we have exactly `days` bars
+    const padded = Array(Math.max(0, days - daily.length)).fill({ status: 'no-data' });
+    const all    = [...padded, ...daily].slice(-days);
+
+    return all.map(d => {
+        const cls  = d.status === 1 || d.status === 'up' ? 'up'
+                   : d.status === 0 || d.status === 'down' ? 'down'
+                   : 'no-data';
+        const tip  = d.date ? `${d.date}: ${cls === 'no-data' ? 'No data' : cls}` : 'No data';
+        return `<div class="bar ${cls}" title="${tip}"></div>`;
+    }).join('');
+}
+
+async function loadIncidents() {
+    try {
+        const issues = await fetch(`${API}/issues?state=open&labels=status&per_page=5`).then(r => r.json());
+        if (!Array.isArray(issues) || !issues.length) return;
+
+        document.getElementById('incidents-section').style.display = '';
+        document.getElementById('incidents-list').innerHTML = issues.map(i => `
+            <div class="incident-card">
+                <div class="incident-header">
+                    <div class="incident-title">${i.title}</div>
+                    <span class="inc-badge investigating">Investigating</span>
+                </div>
+                <div class="incident-msg">${i.body ? i.body.split('\n')[0].substring(0, 200) : 'See GitHub for details'}</div>
+                <div class="incident-date">${new Date(i.created_at).toLocaleString('en-GB')}</div>
+            </div>
+        `).join('');
+    } catch(e) {}
+}
+
+load();
+// Refresh every 5 minutes
+setInterval(load, 5 * 60 * 1000);
+</script>
+</body>
+</html>
