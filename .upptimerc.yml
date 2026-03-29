@@ -5,7 +5,7 @@ baseUrl: https://status.tritone.dev
 
 sites:
   - name: Tritone Website
-    url: https://tritone.dev
+    url: https://tritones.devs
     group: Tritone
 
   - name: GitHub Repository
