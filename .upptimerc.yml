@@ -7,45 +7,36 @@ sites:
   - name: Tritone Website
     url: https://tritone.dev
     group: Tritone
-
   - name: GitHub Repository
     url: https://github.com/Kyle8973/Tritone
     group: Tritone
-
   - name: GitHub Status API
     url: https://www.githubstatus.com/api/v2/status.json
     group: Integrations
-
   - name: Last.FM API
     url: https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&format=json&api_key=test
     expectedStatusCodes:
       - 200
       - 403
     group: Integrations
-
   - name: Discord API
     url: https://discord.com/api/v10/gateway
     group: Integrations
-
   - name: Google Fonts API
     url: https://fonts.googleapis.com/css2?family=Roboto
     group: Integrations
-
   - name: LRCLIB Lyrics API
     url: https://lrclib.net/api/get?artist_name=test&track_name=test&album_name=test
     expectedStatusCodes:
       - 200
       - 404
     group: Integrations
-
   - name: TheAudioDB API
     url: https://www.theaudiodb.com/api/v1/json/2/search.php?s=coldplay
     group: Integrations
-
   - name: Wikipedia API
     url: https://en.wikipedia.org/api/rest_v1/page/summary/Coldplay
     group: Integrations
-
   - name: Cloudflare
     url: https://www.cloudflarestatus.com/api/v2/status.json
     group: Infrastructure
@@ -67,6 +58,13 @@ status-website:
 notifications:
   - type: discord
     webhook: $DISCORD_WEBHOOK
+  - type: email
+    to: $EMAIL_TO
+    from: $EMAIL_FROM
+    host: $EMAIL_HOST
+    port: 587
+    username: $EMAIL_USERNAME
+    password: $EMAIL_PASSWORD
 
 i18n:
-  footer: "Made with ❤️ by Kyle8973"
+  footer: "Made With ❤️ by Kyle8973"
