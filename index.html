@@ -94,6 +94,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:cen
 .bar:hover{opacity:.7;}
 .bar.up{background:var(--green);height:100%;}
 .bar.down{background:var(--red);height:100%;}
+.bar.degraded{background:var(--yellow);height:100%;}
 .bar.no-data{background:rgba(255,255,255,0.07);height:50%;align-self:flex-end;}
 .bars-footer{display:flex;justify-content:space-between;font-family:var(--ff-mono);font-size:9px;color:rgba(240,237,248,0.2);margin-top:6px;}
 .incidents-section{margin-top:64px;}
@@ -177,53 +178,44 @@ var OWNER  = 'Kyle8973';
 var REPO   = 'Tritone-Status';
 var RAW    = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/master';
 var GH_API = 'https://api.github.com/repos/' + OWNER + '/' + REPO;
-
 var GROUPS = {
   'Tritone':        ['tritone-website', 'github-repository'],
   'Integrations':   ['github-status-api', 'last-fm-api', 'discord-api', 'google-fonts-api', 'lrclib-lyrics-api', 'theaudiodb-api', 'wikipedia-api'],
   'Infrastructure': ['cloudflare']
 };
-
 function slugify(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
-
 function formatTime(iso) {
-  if (!iso) return 'Checking Every 5 Minutes 😈';
+  if (!iso) return 'Checking Every 5 Minutes';
   var date = new Date(iso);
-  var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  var timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: tz });
+  var timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
   var next = new Date(date.getTime() + 5 * 60 * 1000);
   var diffMin = Math.round((next - Date.now()) / 60000);
-  var nextStr = diffMin <= 0 ? 'any moment' : 'in ~' + diffMin + ' min';
+  var nextStr = diffMin <= 0 ? 'Any Moment' : 'In ~' + diffMin + ' Min';
   return 'Last checked ' + timeStr + ' &middot; Next check ' + nextStr;
 }
-
 function buildBarsFromMinutesDown(dailyMinutesDown, startTime) {
-  // dailyMinutesDown is an object like { "2026-03-29": 5 }
-  // We build 90 bars, one per day
   var bars = '';
   var now = new Date();
   for (var i = 89; i >= 0; i--) {
     var d = new Date(now);
     d.setDate(d.getDate() - i);
     var dateStr = d.toISOString().split('T')[0];
-    var start = new Date(startTime);
-    var startDate = start.toISOString().split('T')[0];
+    var startDate = new Date(startTime).toISOString().split('T')[0];
     if (dateStr < startDate) {
       bars += '<div class="bar no-data" title="' + dateStr + ': No Data Yet"></div>';
     } else if (dailyMinutesDown && dailyMinutesDown[dateStr] !== undefined) {
       var mins = dailyMinutesDown[dateStr];
-      var cls = mins === 0 ? 'Up' : mins > 60 ? 'Down' : 'Up';
-      bars += '<div class="bar ' + cls + '" title="' + dateStr + ': ' + (mins === 0 ? 'Operational' : mins + ' Min Down') + '"></div>';
+      var cls = mins === 0 ? 'up' : mins <= 60 ? 'degraded' : 'down';
+      var label = mins === 0 ? 'Operational' : mins + ' Min Down';
+      bars += '<div class="bar ' + cls + '" title="' + dateStr + ': ' + label + '"></div>';
     } else {
-      // Date is after start but no entry = fully up that day
       bars += '<div class="bar up" title="' + dateStr + ': Operational"></div>';
     }
   }
   return bars;
 }
-
 function parseDailyFromYaml(yaml) {
   var days = {};
   var currentDate = null;
@@ -238,7 +230,6 @@ function parseDailyFromYaml(yaml) {
     return { date: e[0], status: d.total===0?'no-data': d.up===d.total?'up': d.up===0?'down':'degraded' };
   });
 }
-
 function buildBars(daily, count) {
   var out = '';
   if (!daily || !daily.length) {
@@ -249,26 +240,25 @@ function buildBars(daily, count) {
   for (var p=0;p<Math.max(0,count-daily.length);p++) padded.push({ status:'no-data' });
   var all = padded.concat(daily).slice(-count);
   all.forEach(function(d) {
-    var cls = d.status==='Up'?'Up': d.status==='Down'?'Down':'no-data';
-    var tip = d.date ? d.date+': '+(cls==='no-data'?'No data':cls==='up'?'Operational':'Outage') : 'No Data';
+    var cls = d.status==='up'?'up': d.status==='down'?'down': d.status==='degraded'?'degraded':'no-data';
+    var tip = d.date ? d.date+': '+(cls==='no-data'?'No Data':cls==='up'?'Operational':cls==='degraded'?'Degraded':'Outage') : 'No Data';
     out += '<div class="bar '+cls+'" title="'+tip+'"></div>';
   });
   return out;
 }
-
 async function load() {
   try {
-    var summary = await fetch(RAW + '/history/summary.json').then(function(r){return r.json();});
-    var lastUpdated = null;
+    var results = await Promise.all([
+      fetch(RAW + '/history/summary.json').then(function(r){return r.json();}),
+      fetch(GH_API + '/commits?path=history/summary.json&per_page=1').then(function(r){return r.json();})
+    ]);
+    var summary = results[0];
+    var commits = results[1];
+    var lastUpdated = commits && commits[0] && commits[0].commit ? commits[0].commit.committer.date : null;
     await Promise.all(summary.map(async function(s) {
       try {
         var yaml = await fetch(RAW+'/history/'+slugify(s.name)+'.yml').then(function(r){return r.text();});
         s.daily = parseDailyFromYaml(yaml);
-        // Get lastUpdated from first service yaml
-        if (!lastUpdated) {
-          var lu = yaml.match(/lastUpdated:\s*(.+)/);
-          if (lu) lastUpdated = lu[1].trim();
-        }
       } catch(e) { s.daily = []; }
     }));
     render(summary, lastUpdated);
@@ -276,33 +266,27 @@ async function load() {
     document.getElementById('content').innerHTML = '<div class="loading" style="color:var(--red)">Could Not Load Status</div>';
   }
 }
-
 function render(services, lastUpdated) {
   var total = services.length;
   var up    = services.filter(function(s){return s.status==='up';}).length;
   var down  = services.filter(function(s){return s.status==='down';}).length;
   var avg   = total ? (services.reduce(function(a,s){return a+(parseFloat(s.uptime)||100);},0)/total).toFixed(1) : '100.0';
-
   document.getElementById('stat-total').textContent  = total;
   document.getElementById('stat-up').textContent     = up;
   document.getElementById('stat-down').textContent   = down;
   document.getElementById('stat-uptime').textContent = avg + '%';
-
   var bannerCls  = down === 0 ? 'all-up' : 'some-down';
   var bannerIcon = down === 0 ? '\u2705' : '\u{1F6A8}';
   var bannerText = down === 0 ? 'All Systems Operational' : down + ' System' + (down > 1 ? 's' : '') + ' Experiencing Issues';
-
   var html = '<div class="banner '+bannerCls+'">'
            + '<span class="banner-icon">'+bannerIcon+'</span>'
            + '<div class="banner-text"><b>'+bannerText+'</b>'
            + '<div class="banner-updated">'+formatTime(lastUpdated)+'</div>'
            + '</div></div>';
-
   var lookup = {};
   services.forEach(function(s){lookup[slugify(s.name)]=s;});
   var rendered = {};
   var delay = 0;
-
   Object.entries(GROUPS).forEach(function(entry) {
     var group = entry[0], slugs = entry[1];
     var svcs = slugs.map(function(slug) {
@@ -335,16 +319,13 @@ function render(services, lastUpdated) {
     });
     html += '</div>';
   });
-
   document.getElementById('content').innerHTML = html;
-
   var obs = new IntersectionObserver(function(entries) {
     entries.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} });
   },{threshold:0.1});
   document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
   loadIncidents();
 }
-
 async function loadIncidents() {
   try {
     var issues = await fetch(GH_API+'/issues?state=open&labels=status&per_page=10').then(function(r){return r.json();});
@@ -360,7 +341,6 @@ async function loadIncidents() {
     }).join('');
   } catch(e) {}
 }
-
 var cursor = document.getElementById('cursor');
 var cursorRing = document.getElementById('cursor-ring');
 var mx=0,my=0,rx=0,ry=0;
