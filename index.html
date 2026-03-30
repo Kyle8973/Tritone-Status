@@ -568,7 +568,7 @@ function render(services, lastUpdated) {
     // Banner
     const allUp    = down === 0;
     const bannerCls  = allUp ? 'all-up' : down > 0 ? 'some-down' : 'degraded';
-    const bannerIcon = allUp ? ''\u2705'' : down > 0 ? ''\u1F6A8'' : ''\u26A0'';
+    const bannerIcon = allUp ? "✅" : down > 0 ? "🚨" : "⚠️";
     const bannerText = allUp
         ? 'All systems operational'
         : `${down} system${down > 1 ? 's' : ''} experiencing issues`;
