@@ -513,8 +513,7 @@ async function load() {
 function parseDailyFromYaml(yaml) {
     // Upptime YAML has lines like: - startTime: 2026-03-29T... status: up
     const days = {};
-    const lines = yaml.split('
-');
+    const lines = yaml.split('\n');
     lines.forEach(line => {
         const dateMatch   = line.match(/startTime:\s*(\d{4}-\d{2}-\d{2})/);
         const statusMatch = line.match(/status:\s*(up|down|degraded)/);
@@ -560,7 +559,7 @@ function formatLastUpdated(lastUpdated) {
     const diffMin = Math.round(diffMs / 60000);
     const timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     const nextStr = diffMin <= 0 ? 'any moment' : 'in ~' + diffMin + ' min';
-    return 'Last Checked ' + timeStr + ' &middot; Next Check ' + nextStr;
+    return 'Last checked ' + timeStr + ' &middot; Next check ' + nextStr;
 }
 
 function render(services, lastUpdated) {
