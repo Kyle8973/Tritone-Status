@@ -199,6 +199,31 @@ function formatTime(iso) {
   return 'Last checked ' + timeStr + ' &middot; Next check ' + nextStr;
 }
 
+function buildBarsFromMinutesDown(dailyMinutesDown, startTime) {
+  // dailyMinutesDown is an object like { "2026-03-29": 5 }
+  // We build 90 bars, one per day
+  var bars = '';
+  var now = new Date();
+  for (var i = 89; i >= 0; i--) {
+    var d = new Date(now);
+    d.setDate(d.getDate() - i);
+    var dateStr = d.toISOString().split('T')[0];
+    var start = new Date(startTime);
+    var startDate = start.toISOString().split('T')[0];
+    if (dateStr < startDate) {
+      bars += '<div class="bar no-data" title="' + dateStr + ': No Data Yet"></div>';
+    } else if (dailyMinutesDown && dailyMinutesDown[dateStr] !== undefined) {
+      var mins = dailyMinutesDown[dateStr];
+      var cls = mins === 0 ? 'Up' : mins > 60 ? 'Down' : 'Up';
+      bars += '<div class="bar ' + cls + '" title="' + dateStr + ': ' + (mins === 0 ? 'Operational' : mins + ' Min Down') + '"></div>';
+    } else {
+      // Date is after start but no entry = fully up that day
+      bars += '<div class="bar up" title="' + dateStr + ': Operational"></div>';
+    }
+  }
+  return bars;
+}
+
 function parseDailyFromYaml(yaml) {
   var days = {};
   var currentDate = null;
@@ -217,15 +242,15 @@ function parseDailyFromYaml(yaml) {
 function buildBars(daily, count) {
   var out = '';
   if (!daily || !daily.length) {
-    for (var i=0;i<count;i++) out += '<div class="bar no-data" title="No data yet"></div>';
+    for (var i=0;i<count;i++) out += '<div class="bar no-data" title="No Data Yet"></div>';
     return out;
   }
   var padded = [];
   for (var p=0;p<Math.max(0,count-daily.length);p++) padded.push({ status:'no-data' });
   var all = padded.concat(daily).slice(-count);
   all.forEach(function(d) {
-    var cls = d.status==='up'?'up': d.status==='down'?'down':'no-data';
-    var tip = d.date ? d.date+': '+(cls==='no-data'?'No data':cls==='up'?'Operational':'Outage') : 'No data';
+    var cls = d.status==='Up'?'Up': d.status==='Down'?'Down':'no-data';
+    var tip = d.date ? d.date+': '+(cls==='no-data'?'No data':cls==='up'?'Operational':'Outage') : 'No Data';
     out += '<div class="bar '+cls+'" title="'+tip+'"></div>';
   });
   return out;
@@ -234,11 +259,16 @@ function buildBars(daily, count) {
 async function load() {
   try {
     var summary = await fetch(RAW + '/history/summary.json').then(function(r){return r.json();});
-    var lastUpdated = summary && summary[0] ? summary[0].lastUpdated : null;
+    var lastUpdated = null;
     await Promise.all(summary.map(async function(s) {
       try {
         var yaml = await fetch(RAW+'/history/'+slugify(s.name)+'.yml').then(function(r){return r.text();});
         s.daily = parseDailyFromYaml(yaml);
+        // Get lastUpdated from first service yaml
+        if (!lastUpdated) {
+          var lu = yaml.match(/lastUpdated:\s*(.+)/);
+          if (lu) lastUpdated = lu[1].trim();
+        }
       } catch(e) { s.daily = []; }
     }));
     render(summary, lastUpdated);
@@ -290,7 +320,7 @@ function render(services, lastUpdated) {
       var uptime = s.uptime ? parseFloat(s.uptime).toFixed(2) : '100.00';
       var bcls   = status==='up'?'badge-up': status==='down'?'badge-down':'badge-unknown';
       var btxt   = status==='up'?'Operational': status==='down'?'Outage':'Unknown';
-      var bars   = buildBars(s.daily||[], 90);
+      var bars   = buildBarsFromMinutesDown(s.dailyMinutesDown, s.startTime || '2026-03-29');
       html += '<div class="service-card">'
             + '<div class="svc-top"><div class="svc-dot '+status+'"></div>'
             + '<div class="svc-info"><div class="svc-name">'+s.name+'</div>'
