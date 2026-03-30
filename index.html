@@ -186,15 +186,7 @@ var GROUPS = {
 function slugify(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
-function formatTime(iso) {
-  if (!iso) return 'Checking Every 5 Minutes';
-  var date = new Date(iso);
-  var timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-  var next = new Date(date.getTime() + 5 * 60 * 1000);
-  var diffMin = Math.round((next - Date.now()) / 60000);
-  var nextStr = diffMin <= 0 ? 'Any Moment' : 'In ~' + diffMin + ' Min';
-  return 'Last checked ' + timeStr + ' &middot; Next check ' + nextStr;
-}
+
 function buildBarsFromMinutesDown(dailyMinutesDown, startTime) {
   var bars = '';
   var now = new Date();
@@ -208,10 +200,11 @@ function buildBarsFromMinutesDown(dailyMinutesDown, startTime) {
     } else if (dailyMinutesDown && dailyMinutesDown[dateStr] !== undefined) {
       var mins = dailyMinutesDown[dateStr];
       var cls = mins === 0 ? 'up' : mins <= 60 ? 'degraded' : 'down';
-      var label = mins === 0 ? 'Operational' : mins + ' Min Down';
+      var uptimePct = (((1440 - mins) / 1440) * 100).toFixed(2);
+      var label = mins === 0 ? '100% Uptime' : uptimePct + '% Uptime (' + mins + ' Min Down)';
       bars += '<div class="bar ' + cls + '" title="' + dateStr + ': ' + label + '"></div>';
     } else {
-      bars += '<div class="bar up" title="' + dateStr + ': Operational"></div>';
+      bars += '<div class="bar up" title="' + dateStr + ': 100% Uptime"></div>';
     }
   }
   return bars;
@@ -248,25 +241,20 @@ function buildBars(daily, count) {
 }
 async function load() {
   try {
-    var results = await Promise.all([
-      fetch(RAW + '/history/summary.json').then(function(r){return r.json();}),
-      fetch(GH_API + '/commits?path=history/summary.json&per_page=1').then(function(r){return r.json();})
-    ]);
-    var summary = results[0];
-    var commits = results[1];
-    var lastUpdated = commits && commits[0] && commits[0].commit ? commits[0].commit.committer.date : null;
+    var summary = await fetch(RAW + '/history/summary.json').then(function(r){return r.json();});
+
     await Promise.all(summary.map(async function(s) {
       try {
         var yaml = await fetch(RAW+'/history/'+slugify(s.name)+'.yml').then(function(r){return r.text();});
         s.daily = parseDailyFromYaml(yaml);
       } catch(e) { s.daily = []; }
     }));
-    render(summary, lastUpdated);
+    render(summary);
   } catch(e) {
     document.getElementById('content').innerHTML = '<div class="loading" style="color:var(--red)">Could Not Load Status</div>';
   }
 }
-function render(services, lastUpdated) {
+function render(services) {
   var total = services.length;
   var up    = services.filter(function(s){return s.status==='up';}).length;
   var down  = services.filter(function(s){return s.status==='down';}).length;
@@ -281,7 +269,7 @@ function render(services, lastUpdated) {
   var html = '<div class="banner '+bannerCls+'">'
            + '<span class="banner-icon">'+bannerIcon+'</span>'
            + '<div class="banner-text"><b>'+bannerText+'</b>'
-           + '<div class="banner-updated">'+formatTime(lastUpdated)+'</div>'
+
            + '</div></div>';
   var lookup = {};
   services.forEach(function(s){lookup[slugify(s.name)]=s;});
