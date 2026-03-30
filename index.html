@@ -146,7 +146,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   <div class="header">
     <p class="header-eyebrow">System Status</p>
     <h1 class="header-title">Service<br><span>Status</span></h1>
-    <p class="header-sub">Live uptime for Tritone and every API it depends on. Checked every 5 minutes via GitHub Actions.</p>
+    <p class="header-sub">Live Uptime For Tritone &amp; Every API It Depends On <br> Checked Every 5 Minutes 😈</p>
   </div>
   <div class="stats-strip">
     <div class="stat-cell"><span class="stat-num" id="stat-total">--</span><span class="stat-lbl">Services</span></div>
@@ -154,7 +154,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     <div class="stat-cell"><span class="stat-num" id="stat-down" style="color:var(--red)">--</span><span class="stat-lbl">Issues</span></div>
     <div class="stat-cell"><span class="stat-num" id="stat-uptime">--</span><span class="stat-lbl">Avg Uptime</span></div>
   </div>
-  <div id="content"><div class="loading"><div class="loading-spinner"></div>Fetching status...</div></div>
+  <div id="content"><div class="loading"><div class="loading-spinner"></div>Fetching Status...</div></div>
   <div id="incidents-section" class="incidents-section" style="display:none;">
     <div class="incidents-heading">Incidents</div>
     <div id="incidents-list"></div>
@@ -189,7 +189,7 @@ function slugify(name) {
 }
 
 function formatTime(iso) {
-  if (!iso) return 'Checking every 5 minutes via GitHub Actions';
+  if (!iso) return 'Checking Every 5 Minutes 😈';
   var date = new Date(iso);
   var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
   var timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: tz });
@@ -243,7 +243,7 @@ async function load() {
     }));
     render(summary, lastUpdated);
   } catch(e) {
-    document.getElementById('content').innerHTML = '<div class="loading" style="color:var(--red)">Could not load status</div>';
+    document.getElementById('content').innerHTML = '<div class="loading" style="color:var(--red)">Could Not Load Status</div>';
   }
 }
 
@@ -260,7 +260,7 @@ function render(services, lastUpdated) {
 
   var bannerCls  = down === 0 ? 'all-up' : 'some-down';
   var bannerIcon = down === 0 ? '\u2705' : '\u{1F6A8}';
-  var bannerText = down === 0 ? 'All systems operational' : down + ' system' + (down > 1 ? 's' : '') + ' experiencing issues';
+  var bannerText = down === 0 ? 'All Systems Operational' : down + ' System' + (down > 1 ? 's' : '') + ' Experiencing Issues';
 
   var html = '<div class="banner '+bannerCls+'">'
            + '<span class="banner-icon">'+bannerIcon+'</span>'
@@ -296,11 +296,11 @@ function render(services, lastUpdated) {
             + '<div class="svc-info"><div class="svc-name">'+s.name+'</div>'
             + (s.url?'<div class="svc-url">'+s.url+'</div>':'')
             + '</div><div class="svc-right">'
-            + '<div class="svc-uptime"><b>'+uptime+'%</b>uptime</div>'
+            + '<div class="svc-uptime"><b>'+uptime+'%</b>Uptime</div>'
             + '<span class="svc-badge '+bcls+'">'+btxt+'</span>'
             + '</div></div>'
             + '<div class="bars-wrap"><div class="bars">'+bars+'</div>'
-            + '<div class="bars-footer"><span>90 days ago</span><span>'+uptime+'% uptime</span><span>Today</span></div>'
+            + '<div class="bars-footer"><span>90 Days Ago</span><span>'+uptime+'% Uptime</span><span>Today</span></div>'
             + '</div></div>';
     });
     html += '</div>';
@@ -324,7 +324,7 @@ async function loadIncidents() {
       return '<div class="incident-card">'
            + '<div class="incident-header"><div class="incident-title">'+i.title+'</div>'
            + '<span class="inc-badge investigating">Investigating</span></div>'
-           + '<div class="incident-msg">'+(i.body?i.body.split('\n')[0].substring(0,200):'See GitHub for details')+'</div>'
+           + '<div class="incident-msg">'+(i.body?i.body.split('\n')[0].substring(0,200):'See GitHub For Details')+'</div>'
            + '<div class="incident-date">'+new Date(i.created_at).toLocaleString('en-GB')+'</div>'
            + '</div>';
     }).join('');
