@@ -483,14 +483,8 @@ function slugify(name) {
 
 async function load() {
     try {
-        // Fetch summary and last commit time in parallel
-        const [summary, commits] = await Promise.all([
-            fetch(`${RAW}/history/summary.json`).then(r => r.json()),
-            fetch(`${GH_API}/commits?path=history/summary.json&per_page=1`).then(r => r.json()),
-        ]);
-
-        // Get last updated time from commit
-        const lastUpdated = commits?.[0]?.commit?.committer?.date || null;
+        const summary = await fetch(`${RAW}/history/summary.json`).then(r => r.json());
+        const lastUpdated = summary?.[0]?.lastUpdated || null;
 
         // Fetch daily history for each service
         await Promise.all(summary.map(async s => {
@@ -506,30 +500,26 @@ async function load() {
         render(summary, lastUpdated);
     } catch(e) {
         document.getElementById('content').innerHTML =
-            '<div class="loading" style="color:var(--red)">&#9888; Could not load status &mdash; <a href="https://github.com/' + OWNER + '/' + REPO + '" style="color:var(--accent)" target="_blank">view on GitHub</a></div>';
+            '<div class="loading" style="color:var(--red)">&#9888; Could not load status - <a href="https://github.com/' + OWNER + '/' + REPO + '" style="color:var(--accent)" target="_blank">view on GitHub</a></div>';
     }
 }
 
 function parseDailyFromYaml(yaml) {
-    // Upptime YAML has lines like: - startTime: 2026-03-29T... status: up
     const days = {};
-    const lines = yaml.split('\n');
-    lines.forEach(line => {
-        const dateMatch   = line.match(/startTime:\s*(\d{4}-\d{2}-\d{2})/);
-        const statusMatch = line.match(/status:\s*(up|down|degraded)/);
-        if (dateMatch) {
-            const date = dateMatch[1];
-            if (!days[date]) days[date] = { up: 0, total: 0 };
+    let currentDate = null;
+    yaml.split('\n').forEach(line => {
+        const startMatch = line.match(/startTime:\s*["']?(\d{4}-\d{2}-\d{2})/);
+        if (startMatch) {
+            currentDate = startMatch[1];
+            if (!days[currentDate]) days[currentDate] = { up: 0, total: 0 };
         }
-        if (statusMatch) {
-            const lastDate = Object.keys(days).pop();
-            if (lastDate) {
-                days[lastDate].total++;
-                if (statusMatch[1] === 'up') days[lastDate].up++;
-            }
+        const statusMatch = line.match(/status:\s*["']?(up|down|degraded)["']?/);
+        if (statusMatch && currentDate) {
+            days[currentDate].total++;
+            if (statusMatch[1] === 'up') days[currentDate].up++;
         }
     });
-    return Object.entries(days).map(([date, d]) => ({
+    return Object.entries(days).sort(([a],[b]) => a.localeCompare(b)).map(([date, d]) => ({
         date,
         status: d.total === 0 ? 'no-data' : d.up === d.total ? 'up' : d.up === 0 ? 'down' : 'degraded',
     }));
@@ -557,9 +547,9 @@ function formatLastUpdated(lastUpdated) {
     const now  = new Date();
     const diffMs = next - now;
     const diffMin = Math.round(diffMs / 60000);
-    const timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    const timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone });
     const nextStr = diffMin <= 0 ? 'any moment' : 'in ~' + diffMin + ' min';
-    return 'Last checked ' + timeStr + ' &middot; Next check ' + nextStr;
+    return 'Last checked ' + timeStr + ' . Next check ' + nextStr;
 }
 
 function render(services, lastUpdated) {
@@ -578,7 +568,7 @@ function render(services, lastUpdated) {
     // Banner
     const allUp    = down === 0;
     const bannerCls  = allUp ? 'all-up' : down > 0 ? 'some-down' : 'degraded';
-    const bannerIcon = allUp ? '✅' : down > 0 ? '🚨' : '⚠️';
+    const bannerIcon = allUp ? ''\u2705'' : down > 0 ? ''\u1F6A8'' : ''\u26A0'';
     const bannerText = allUp
         ? 'All systems operational'
         : `${down} system${down > 1 ? 's' : ''} experiencing issues`;
@@ -699,7 +689,7 @@ async function loadIncidents() {
     } catch(e) {}
 }
 
-// ── Custom cursor (exact match from main site) ──
+// -- Custom cursor (exact match from main site) --
 const cursor     = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursor-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
