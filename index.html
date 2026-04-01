@@ -252,7 +252,8 @@ function render(services) {
 
   document.getElementById('stat-total').textContent  = total;
   document.getElementById('stat-up').textContent     = up;
-  document.getElementById('stat-down').textContent   = down;
+  var openIncidents = _allIssues.filter(function(i){ return i.state === 'open'; }).length;
+  document.getElementById('stat-down').textContent   = openIncidents;
   document.getElementById('stat-uptime').textContent = avg + '%';
 
   var bannerCls  = down === 0 ? 'all-up' : 'some-down';
