@@ -164,22 +164,7 @@ function buildBarsFromMinutesDown(dailyMinutesDown, startTime) {
   return bars;
 }
 
-function parseYamlHistory(yaml) {
-  var entries = [];
-  var lines = yaml.split('\n');
-  var current = {};
-  lines.forEach(function(line) {
-    var startMatch = line.match(/startTime:\s*["']?(.+?)["']?\s*$/);
-    var statusMatch = line.match(/status:\s*["']?(up|down|degraded)["']?/);
-    var codeMatch   = line.match(/code:\s*(\d+)/);
-    var rtMatch     = line.match(/responseTime:\s*(\d+)/);
-    if (startMatch) { current = { time: startMatch[1].trim() }; }
-    if (statusMatch && current.time) { current.status = statusMatch[1]; }
-    if (codeMatch   && current.time) { current.code = parseInt(codeMatch[1]); }
-    if (rtMatch     && current.time) { current.rt = parseInt(rtMatch[1]); entries.push(current); current = {}; }
-  });
-  return entries;
-}
+
 
 async function load() {
   var slug = getServiceSlug();
@@ -191,13 +176,11 @@ async function load() {
   try {
     var results = await Promise.all([
       fetch(RAW + '/history/summary.json').then(function(r){ return r.json(); }),
-      fetch(RAW + '/history/' + slug + '.yml').then(function(r){ return r.text(); }),
       fetch(GH + '/issues?state=all&labels=status&per_page=50').then(function(r){ return r.json(); }).catch(function(){ return []; }),
     ]);
 
-    var summary  = results[0];
-    var yaml     = results[1];
-    var allIssues = Array.isArray(results[2]) ? results[2] : [];
+    var summary   = results[0];
+    var allIssues = Array.isArray(results[1]) ? results[1] : [];
 
     var service = summary.find(function(s){ return s.slug === slug; });
     if (!service) {
@@ -207,50 +190,26 @@ async function load() {
 
     document.title = service.name + ' - Tritone Status';
 
-    var history = parseYamlHistory(yaml);
-    var bars    = buildBarsFromMinutesDown(service.dailyMinutesDown, service.startTime || '2026-03-29');
+    var bars = buildBarsFromMinutesDown(service.dailyMinutesDown, service.startTime || '2026-03-29');
 
-    // Build 7-day daily average response time chart from YAML history
-    var days7 = {};
-    history.forEach(function(e) {
-      if (!e.rt || !e.time) return;
-      var dateStr = new Date(e.time).toISOString().split('T')[0];
-      if (!days7[dateStr]) days7[dateStr] = { total: 0, count: 0 };
-      days7[dateStr].total += e.rt;
-      days7[dateStr].count++;
-    });
+    // Build response time comparison from summary.json aggregates
+    var pingPeriods = [
+      { label: '24h',  val: service.timeDay   || null },
+      { label: '7d',   val: service.timeWeek  || null },
+      { label: '30d',  val: service.timeMonth || null },
+      { label: '1y',   val: service.timeYear  || null },
+    ].filter(function(p){ return p.val !== null; });
 
-    // Build last 7 days array
-    var rtDays = [];
-    for (var di = 6; di >= 0; di--) {
-      var dObj = new Date();
-      dObj.setDate(dObj.getDate() - di);
-      var ds = dObj.toISOString().split('T')[0];
-      var avg = days7[ds] ? Math.round(days7[ds].total / days7[ds].count) : null;
-      var label = dObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-      rtDays.push({ date: ds, avg: avg, label: label });
-    }
+    var maxPing = pingPeriods.length ? Math.max.apply(null, pingPeriods.map(function(p){ return p.val; })) : 1;
 
-    var validRts = rtDays.filter(function(d){ return d.avg !== null; }).map(function(d){ return d.avg; });
-    var maxRt    = validRts.length ? Math.max.apply(null, validRts) : 1;
-    var minRt    = validRts.length ? Math.min.apply(null, validRts) : 0;
-    var range    = maxRt - minRt || 1;
-
-    var rtBars = rtDays.map(function(d) {
-      if (d.avg === null) {
-        return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">'
-             + '<div style="flex:1;display:flex;align-items:flex-end;width:100%;">'
-             + '<div class="response-bar" style="height:4%;opacity:0.2;width:100%;" title="' + d.label + ': No Data"></div>'
-             + '</div>'
-             + '<div style="font-family:var(--ff-mono);font-size:9px;color:rgba(240,237,248,0.2);text-align:center;">' + d.label + '</div>'
-             + '</div>';
-      }
-      var h = Math.max(8, Math.round(((d.avg - minRt) / range) * 80) + 10);
-      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">'
+    var rtBars = pingPeriods.map(function(p) {
+      var h = Math.max(8, Math.round((p.val / maxPing) * 85));
+      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">'
            + '<div style="flex:1;display:flex;align-items:flex-end;width:100%;">'
-           + '<div class="response-bar" style="height:' + h + '%;width:100%;" title="' + d.label + ': ' + d.avg + 'ms avg"></div>'
+           + '<div class="response-bar" style="height:' + h + '%;width:100%;" title="' + p.label + ' avg: ' + p.val + 'ms"></div>'
            + '</div>'
-           + '<div style="font-family:var(--ff-mono);font-size:9px;color:rgba(240,237,248,0.2);text-align:center;">' + d.label + '</div>'
+           + '<div style="font-family:var(--ff-mono);font-size:10px;color:rgba(240,237,248,0.3);text-align:center;">' + p.label + '</div>'
+           + '<div style="font-family:var(--ff-mono);font-size:11px;color:var(--accent);text-align:center;font-weight:500;">' + p.val + 'ms</div>'
            + '</div>';
     }).join('');
 
@@ -259,7 +218,7 @@ async function load() {
     var uptime7   = service.uptimeWeek  ? parseFloat(service.uptimeWeek).toFixed(2)  : '--';
     var uptimeM   = service.uptimeMonth ? parseFloat(service.uptimeMonth).toFixed(2) : '--';
     var uptimeY   = service.uptimeYear  ? parseFloat(service.uptimeYear).toFixed(2)  : '--';
-    var ping      = service.time ? service.time + 'ms' : '--';
+    var ping      = service.timeWeek ? service.timeWeek + 'ms' : (service.time ? service.time + 'ms' : '--');
     var pingDay   = service.timeDay ? service.timeDay + 'ms' : '--';
 
     // Filter incidents for this service
@@ -280,7 +239,7 @@ async function load() {
              + '<div class="stat-card"><span class="stat-num">' + (uptime30 !== '--' ? uptime30 + '%' : '--') + '</span><span class="stat-lbl">24h Uptime</span></div>'
              + '<div class="stat-card"><span class="stat-num">' + (uptime7 !== '--' ? uptime7 + '%' : '--') + '</span><span class="stat-lbl">7d Uptime</span></div>'
              + '<div class="stat-card"><span class="stat-num">' + (uptimeM !== '--' ? uptimeM + '%' : '--') + '</span><span class="stat-lbl">30d Uptime</span></div>'
-             + '<div class="stat-card"><span class="stat-num">' + ping + '</span><span class="stat-lbl">Avg Ping</span></div>'
+             + '<div class="stat-card"><span class="stat-num">' + ping + '</span><span class="stat-lbl">Avg Ping (7d)</span></div>'
              + '</div>'
 
              + '<div class="card">'
@@ -289,11 +248,12 @@ async function load() {
              + '<div class="bars-footer"><span>90 Days Ago</span><span>' + (uptimeM !== '--' ? uptimeM + '% Over 30 Days' : '') + '</span><span>Today</span></div>'
              + '</div>';
 
-    html += '<div class="card">'
-          + '<div class="card-label">Response Time (7-Day Daily Average)</div>'
-          + '<div class="response-chart" style="height:100px;">' + rtBars + '</div>'
-          + (validRts.length ? '<div class="bars-footer"><span>Min: ' + minRt + 'ms</span><span>Avg: ' + pingDay + '</span><span>Max: ' + maxRt + 'ms</span></div>' : '')
-          + '</div>';
+    if (pingPeriods.length) {
+      html += '<div class="card">'
+            + '<div class="card-label">Avg Response Time By Period</div>'
+            + '<div class="response-chart" style="height:120px;">' + rtBars + '</div>'
+            + '</div>';
+    }
 
     html += '<div class="card">'
           + '<div class="card-label">Incident History</div>';
