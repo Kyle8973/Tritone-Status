@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tritone -- Service History</title>
+<meta name="theme-color" content="#a855f7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --accent:#a855f7;--accent-dim:#7c3aed;--accent-glow:rgba(168,85,247,0.35);
+  --bg:#06060a;--bg2:#0d0d14;--bg3:#111119;
+  --surface:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);
+  --text:#f0edf8;--muted:rgba(240,237,248,0.65);
+  --green:#22c55e;--red:#ef4444;--yellow:#f59e0b;
+  --ff-display:'Bebas Neue',sans-serif;
+  --ff-body:'DM Sans',sans-serif;
+  --ff-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth;scroll-padding-top:80px;}
+body{background:var(--bg);color:var(--text);font-family:var(--ff-body);font-weight:300;line-height:1.6;overflow-x:hidden;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size:200px 200px;}
+.hero-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(168,85,247,0.14) 0%,transparent 65%);}
+.hero-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(168,85,247,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 70% 50% at 50% 30%,black 0%,transparent 70%);}
+@media(pointer:coarse){#cursor,#cursor-ring{display:none!important;}}
+@media(pointer:fine){body{cursor:none;}}
+#cursor{position:fixed;top:0;left:0;z-index:99999;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:screen;}
+#cursor-ring{position:fixed;top:0;left:0;z-index:99998;width:36px;height:36px;border:1px solid rgba(168,85,247,0.5);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(6,6,10,0.72);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:background .3s;}
+.nav-logo{font-family:var(--ff-display);font-size:26px;letter-spacing:3px;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:.5px;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{font-size:13px;font-weight:600;padding:9px 22px;border:1px solid var(--accent);border-radius:6px;color:var(--accent);text-decoration:none;transition:background .2s,color .2s;}
+.nav-cta:hover{background:var(--accent);color:#000;}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:100px 40px 80px;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;margin-bottom:32px;transition:color .2s;}
+.back-link:hover{color:var(--accent);}
+.page-eyebrow{font-family:var(--ff-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.page-title{font-family:var(--ff-display);font-size:clamp(48px,8vw,96px);letter-spacing:3px;text-transform:uppercase;line-height:.9;margin-bottom:8px;}
+.page-url{font-family:var(--ff-mono);font-size:11px;color:rgba(240,237,248,0.25);margin-bottom:40px;word-break:break-all;}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent-glow),transparent);}
+.stat-num{font-family:var(--ff-display);font-size:32px;letter-spacing:1px;color:var(--accent);display:block;line-height:1;margin-bottom:6px;}
+.stat-lbl{font-family:var(--ff-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:16px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(168,85,247,0.25),transparent);}
+.card-label{font-family:var(--ff-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.status-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff-mono);font-size:12px;letter-spacing:1px;padding:6px 14px;border-radius:6px;font-weight:500;margin-bottom:32px;}
+.status-badge.up{background:rgba(34,197,94,0.08);color:var(--green);border:1px solid rgba(34,197,94,0.2);}
+.status-badge.down{background:rgba(239,68,68,0.08);color:var(--red);border:1px solid rgba(239,68,68,0.2);}
+.status-badge.unknown{background:var(--surface);color:var(--muted);border:1px solid var(--border);}
+.status-dot{width:8px;height:8px;border-radius:50%;}
+.status-dot.up{background:var(--green);box-shadow:0 0 6px rgba(34,197,94,0.5);}
+.status-dot.down{background:var(--red);box-shadow:0 0 6px rgba(239,68,68,0.5);}
+.status-dot.unknown{background:var(--muted);}
+.bars{display:flex;align-items:flex-end;gap:2px;height:48px;width:100%;overflow:hidden;}
+.bar{flex:1;border-radius:2px;min-width:0;transition:opacity .15s;cursor:default;}
+.bar:hover{opacity:.7;}
+.bar.up{background:var(--green);height:100%;}
+.bar.down{background:var(--red);height:100%;}
+.bar.degraded{background:var(--yellow);height:100%;}
+.bar.no-data{background:rgba(255,255,255,0.07);height:40%;align-self:flex-end;}
+.bars-footer{display:flex;justify-content:space-between;font-family:var(--ff-mono);font-size:9px;color:rgba(240,237,248,0.2);margin-top:6px;}
+.response-chart{display:flex;align-items:flex-end;gap:3px;height:80px;width:100%;}
+.response-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:var(--accent);opacity:.6;transition:opacity .15s;cursor:default;}
+.response-bar:hover{opacity:1;}
+.incident-item{padding:14px 0;border-bottom:1px solid var(--border);}
+.incident-item:last-child{border-bottom:none;}
+.incident-header{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+.incident-title{font-size:13px;font-weight:500;flex:1;}
+.inc-tag{font-family:var(--ff-mono);font-size:10px;letter-spacing:1px;padding:2px 8px;border-radius:4px;border:1px solid;}
+.inc-tag.open{background:rgba(239,68,68,0.08);color:var(--red);border-color:rgba(239,68,68,0.2);}
+.inc-tag.closed{background:rgba(34,197,94,0.08);color:var(--green);border-color:rgba(34,197,94,0.2);}
+.incident-date{font-family:var(--ff-mono);font-size:10px;color:rgba(240,237,248,0.2);}
+.incident-link{font-family:var(--ff-mono);font-size:10px;color:var(--accent);text-decoration:none;margin-left:auto;flex-shrink:0;}
+.incident-link:hover{text-decoration:underline;}
+.empty-incidents{font-family:var(--ff-mono);font-size:12px;color:var(--muted);padding:16px 0;letter-spacing:1px;}
+.loading-spin{width:24px;height:24px;border:2px solid rgba(168,85,247,0.15);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin:40px auto;}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:40px 0;margin-top:40px;}
+.footer-inner{max-width:900px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;}
+.footer-logo{font-family:var(--ff-display);font-size:18px;letter-spacing:3px;color:var(--muted);text-decoration:none;}
+.footer-logo span{color:var(--accent);}
+.footer-copy{font-family:var(--ff-mono);font-size:11px;color:rgba(240,237,248,0.2);}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(168,85,247,0.2);border-radius:3px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeUp .4s ease both;}
+@media(max-width:768px){nav{padding:0 20px;}.nav-links{display:none;}.wrap{padding:80px 16px 60px;}.stat-grid{grid-template-columns:1fr 1fr;}.footer-inner{flex-direction:column;gap:12px;text-align:center;}}
+@media(max-width:480px){.stat-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="hero-bg"></div>
+<div class="hero-grid"></div>
+
+<nav id="nav">
+  <a href="https://tritone.dev" class="nav-logo">TRI<span>T</span>ONE</a>
+  <ul class="nav-links">
+    <li><a href="https://tritone.dev">Home</a></li>
+    <li><a href="https://tritone.dev/features">Features</a></li>
+    <li><a href="https://tritone.dev/download">Download</a></li>
+    <li><a href="https://status.tritone.dev">Status</a></li>
+  </ul>
+  <a href="https://tritone.dev/download" class="nav-cta">Download</a>
+</nav>
+
+<div class="wrap">
+  <a href="https://status.tritone.dev" class="back-link">&#8592; Back To Status</a>
+  <div id="content"><div class="loading-spin"></div></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <a href="https://tritone.dev" class="footer-logo">TRI<span>T</span>ONE</a>
+    <span class="footer-copy">&copy; 2026 Kyle8973 &middot; MIT License &middot; Powered By Upptime</span>
+  </div>
+</footer>
+
+<script>
+var OWNER = 'Kyle8973';
+var REPO  = 'Tritone-Status';
+var RAW   = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/master';
+var GH    = 'https://api.github.com/repos/' + OWNER + '/' + REPO;
+
+function getServiceSlug() {
+  var params = new URLSearchParams(window.location.search);
+  return params.get('service') || '';
+}
+
+function buildBarsFromMinutesDown(dailyMinutesDown, startTime) {
+  var bars = '';
+  var now = new Date();
+  for (var i = 89; i >= 0; i--) {
+    var d = new Date(now);
+    d.setDate(d.getDate() - i);
+    var dateStr = d.toISOString().split('T')[0];
+    var startDate = new Date(startTime).toISOString().split('T')[0];
+    if (dateStr < startDate) {
+      bars += '<div class="bar no-data" title="' + dateStr + ': No Data Yet"></div>';
+    } else if (dailyMinutesDown && dailyMinutesDown[dateStr] !== undefined) {
+      var mins = dailyMinutesDown[dateStr];
+      var cls = mins === 0 ? 'up' : mins <= 60 ? 'degraded' : 'down';
+      var uptimePct = (((1440 - mins) / 1440) * 100).toFixed(2);
+      var label = mins === 0 ? '100% Uptime' : uptimePct + '% Uptime (' + mins + ' Min Down)';
+      bars += '<div class="bar ' + cls + '" title="' + dateStr + ': ' + label + '"></div>';
+    } else {
+      bars += '<div class="bar up" title="' + dateStr + ': 100% Uptime"></div>';
+    }
+  }
+  return bars;
+}
+
+function parseYamlHistory(yaml) {
+  var entries = [];
+  var lines = yaml.split('\n');
+  var current = {};
+  lines.forEach(function(line) {
+    var startMatch = line.match(/startTime:\s*["']?(.+?)["']?\s*$/);
+    var statusMatch = line.match(/status:\s*["']?(up|down|degraded)["']?/);
+    var codeMatch   = line.match(/code:\s*(\d+)/);
+    var rtMatch     = line.match(/responseTime:\s*(\d+)/);
+    if (startMatch) { current = { time: startMatch[1].trim() }; }
+    if (statusMatch && current.time) { current.status = statusMatch[1]; }
+    if (codeMatch   && current.time) { current.code = parseInt(codeMatch[1]); }
+    if (rtMatch     && current.time) { current.rt = parseInt(rtMatch[1]); entries.push(current); current = {}; }
+  });
+  return entries;
+}
+
+async function load() {
+  var slug = getServiceSlug();
+  if (!slug) {
+    document.getElementById('content').innerHTML = '<p style="color:var(--red);font-family:var(--ff-mono);">No service specified.</p>';
+    return;
+  }
+
+  try {
+    var results = await Promise.all([
+      fetch(RAW + '/history/summary.json').then(function(r){ return r.json(); }),
+      fetch(RAW + '/history/' + slug + '.yml').then(function(r){ return r.text(); }),
+      fetch(GH + '/issues?state=all&labels=status&per_page=50').then(function(r){ return r.json(); }).catch(function(){ return []; }),
+    ]);
+
+    var summary  = results[0];
+    var yaml     = results[1];
+    var allIssues = Array.isArray(results[2]) ? results[2] : [];
+
+    var service = summary.find(function(s){ return s.slug === slug; });
+    if (!service) {
+      document.getElementById('content').innerHTML = '<p style="color:var(--red);font-family:var(--ff-mono);">Service not found: ' + slug + '</p>';
+      return;
+    }
+
+    document.title = service.name + ' - Tritone Status';
+
+    var history = parseYamlHistory(yaml);
+    var bars    = buildBarsFromMinutesDown(service.dailyMinutesDown, service.startTime || '2026-03-29');
+
+    // Response time chart from history entries
+    var rtEntries = history.filter(function(e){ return e.rt; }).slice(-30);
+    var maxRt     = Math.max.apply(null, rtEntries.map(function(e){ return e.rt; })) || 1;
+    var rtBars    = rtEntries.map(function(e) {
+      var h   = Math.max(4, Math.round((e.rt / maxRt) * 100));
+      var date = new Date(e.time).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+      return '<div class="response-bar" style="height:' + h + '%" title="' + date + ': ' + e.rt + 'ms"></div>';
+    }).join('');
+
+    var status    = service.status || 'unknown';
+    var uptime30  = service.uptimeDay   ? parseFloat(service.uptimeDay).toFixed(2)   : '--';
+    var uptime7   = service.uptimeWeek  ? parseFloat(service.uptimeWeek).toFixed(2)  : '--';
+    var uptimeM   = service.uptimeMonth ? parseFloat(service.uptimeMonth).toFixed(2) : '--';
+    var uptimeY   = service.uptimeYear  ? parseFloat(service.uptimeYear).toFixed(2)  : '--';
+    var ping      = service.time ? service.time + 'ms' : '--';
+    var pingDay   = service.timeDay ? service.timeDay + 'ms' : '--';
+
+    // Filter incidents for this service
+    var incidents = allIssues.filter(function(i){
+      return i.title && i.title.toLowerCase().indexOf(service.name.toLowerCase().split(' ')[0]) !== -1;
+    });
+
+    var badgeCls = status === 'up' ? 'up' : status === 'down' ? 'down' : 'unknown';
+    var badgeTxt = status === 'up' ? 'Operational' : status === 'down' ? 'Outage' : 'Unknown';
+
+    var html = '<div class="fade-in">'
+             + '<p class="page-eyebrow">Service History</p>'
+             + '<h1 class="page-title">' + service.name + '</h1>'
+             + (service.url ? '<div class="page-url">' + service.url + '</div>' : '')
+             + '<span class="status-badge ' + badgeCls + '"><span class="status-dot ' + badgeCls + '"></span>' + badgeTxt + '</span>'
+
+             + '<div class="stat-grid">'
+             + '<div class="stat-card"><span class="stat-num">' + (uptime30 !== '--' ? uptime30 + '%' : '--') + '</span><span class="stat-lbl">24h Uptime</span></div>'
+             + '<div class="stat-card"><span class="stat-num">' + (uptime7 !== '--' ? uptime7 + '%' : '--') + '</span><span class="stat-lbl">7d Uptime</span></div>'
+             + '<div class="stat-card"><span class="stat-num">' + (uptimeM !== '--' ? uptimeM + '%' : '--') + '</span><span class="stat-lbl">30d Uptime</span></div>'
+             + '<div class="stat-card"><span class="stat-num">' + ping + '</span><span class="stat-lbl">Avg Ping</span></div>'
+             + '</div>'
+
+             + '<div class="card">'
+             + '<div class="card-label">90-Day Uptime History</div>'
+             + '<div class="bars">' + bars + '</div>'
+             + '<div class="bars-footer"><span>90 Days Ago</span><span>' + (uptimeM !== '--' ? uptimeM + '% Over 30 Days' : '') + '</span><span>Today</span></div>'
+             + '</div>';
+
+    if (rtBars) {
+      html += '<div class="card">'
+            + '<div class="card-label">Response Time (Last 30 Checks)</div>'
+            + '<div class="response-chart">' + rtBars + '</div>'
+            + '<div class="bars-footer"><span>Older</span><span>Avg: ' + pingDay + '</span><span>Latest</span></div>'
+            + '</div>';
+    }
+
+    html += '<div class="card">'
+          + '<div class="card-label">Incident History</div>';
+
+    if (!incidents.length) {
+      html += '<div class="empty-incidents">No incidents recorded for this service.</div>';
+    } else {
+      incidents.forEach(function(i) {
+        var isOpen = i.state === 'open';
+        var date   = new Date(i.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+        html += '<div class="incident-item">'
+              + '<div class="incident-header">'
+              + '<div class="incident-title">' + i.title + '</div>'
+              + '<span class="inc-tag ' + (isOpen ? 'open' : 'closed') + '">' + (isOpen ? 'Ongoing' : 'Resolved') + '</span>'
+              + '<a class="incident-link" href="' + i.html_url + '" target="_blank">View &#8599;</a>'
+              + '</div>'
+              + '<div class="incident-date">' + date + (i.closed_at ? ' &middot; Resolved ' + new Date(i.closed_at).toLocaleDateString('en-GB') : '') + '</div>'
+              + '</div>';
+      });
+    }
+
+    html += '</div></div>';
+    document.getElementById('content').innerHTML = html;
+
+  } catch(e) {
+    document.getElementById('content').innerHTML = '<p style="color:var(--red);font-family:var(--ff-mono);">Failed to load service data.</p>';
+    console.error(e);
+  }
+}
+
+// Custom cursor
+var cursor = document.getElementById('cursor');
+var cursorRing = document.getElementById('cursor-ring');
+var mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cursorRing.style.left=rx+'px';cursorRing.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a,button').forEach(function(el){
+  el.addEventListener('mouseenter',function(){cursor.style.width='20px';cursor.style.height='20px';cursorRing.style.width='56px';cursorRing.style.height='56px';cursorRing.style.borderColor='rgba(168,85,247,0.8)';});
+  el.addEventListener('mouseleave',function(){cursor.style.width='10px';cursor.style.height='10px';cursorRing.style.width='36px';cursorRing.style.height='36px';cursorRing.style.borderColor='rgba(168,85,247,0.5)';});
+});
+window.addEventListener('scroll',function(){document.getElementById('nav').style.background=window.scrollY>40?'rgba(6,6,10,0.95)':'rgba(6,6,10,0.72)';},{passive:true});
+
+load();
+</script>
+</body>
+</html>
