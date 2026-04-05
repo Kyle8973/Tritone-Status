@@ -309,7 +309,7 @@ function render(services) {
             + '<span class="detail-chevron">&#9660;</span>'
             + '</div></div>'
             + '<div class="bars-wrap"><div class="bars">' + bars + '</div>'
-            + '<div class="bars-footer"><span>90 Days Ago</span><span>' + uptime + '% Uptime</span><span>Today</span></div>'
+            + '<div class="bars-footer"><span>90 Days Ago</span><span>' + uptime + '% Uptime</span><a href="/history.html?service=' + s.slug + '" onclick="event.stopPropagation()" style="font-family:var(--ff-mono);font-size:9px;color:var(--accent);text-decoration:none;">Full History &#8599;</a></div>'
             + '</div></div>'
             + '<div class="svc-detail" id="detail-' + s.slug + '">'
             + buildDetailPanel(s)
