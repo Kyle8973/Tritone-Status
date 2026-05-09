@@ -1,7 +1,7 @@
 url: https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&format=json&api_key=test
 status: up
 code: 403
-responseTime: 103
-lastUpdated: 2026-05-08T23:43:32.711Z
+responseTime: 212
+lastUpdated: 2026-05-09T23:34:49.041Z
 startTime: 2026-03-29T19:26:55.003Z
 generator: Upptime <https://github.com/upptime/upptime>
