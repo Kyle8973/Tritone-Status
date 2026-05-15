@@ -115,9 +115,9 @@
     "url": "https://lrclib.net/api/get?artist_name=test&track_name=test&album_name=test",
     "icon": "https://icons.duckduckgo.com/ip3/lrclib.net.ico",
     "slug": "lrclib-lyrics-api",
-    "status": "up",
+    "status": "down",
     "uptime": "100.00%",
-    "uptimeDay": "100.00%",
+    "uptimeDay": "99.99%",
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
@@ -126,7 +126,9 @@
     "timeWeek": 5456,
     "timeMonth": 3501,
     "timeYear": 2413,
-    "dailyMinutesDown": {}
+    "dailyMinutesDown": {
+      "2026-05-15": 0
+    }
   },
   {
     "name": "TheAudioDB API",
