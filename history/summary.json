@@ -135,20 +135,20 @@
     "url": "https://www.theaudiodb.com/api/v1/json/2/search.php?s=coldplay",
     "icon": "https://icons.duckduckgo.com/ip3/www.theaudiodb.com.ico",
     "slug": "the-audio-db-api",
-    "status": "down",
-    "uptime": "99.91%",
-    "uptimeDay": "99.99%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "99.91%",
+    "status": "up",
+    "uptime": "99.83%",
+    "uptimeDay": "95.11%",
+    "uptimeWeek": "99.30%",
+    "uptimeMonth": "99.84%",
+    "uptimeYear": "99.83%",
     "time": 235,
-    "timeDay": 181,
-    "timeWeek": 179,
+    "timeDay": 197,
+    "timeWeek": 185,
     "timeMonth": 224,
     "timeYear": 235,
     "dailyMinutesDown": {
       "2026-04-09": 82,
-      "2026-05-30": 0
+      "2026-05-30": 70
     }
   },
   {
