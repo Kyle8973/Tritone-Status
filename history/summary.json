@@ -43,18 +43,20 @@
     "url": "https://www.githubstatus.com/api/v2/status.json",
     "icon": "https://icons.duckduckgo.com/ip3/www.githubstatus.com.ico",
     "slug": "git-hub-status-api",
-    "status": "up",
+    "status": "down",
     "uptime": "100.00%",
-    "uptimeDay": "100.00%",
+    "uptimeDay": "99.98%",
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 223,
-    "timeDay": 175,
-    "timeWeek": 132,
-    "timeMonth": 267,
-    "timeYear": 223,
-    "dailyMinutesDown": {}
+    "time": 221,
+    "timeDay": 116,
+    "timeWeek": 122,
+    "timeMonth": 261,
+    "timeYear": 221,
+    "dailyMinutesDown": {
+      "2026-06-03": 0
+    }
   },
   {
     "name": "Last.FM API",
@@ -174,17 +176,19 @@
     "url": "https://www.cloudflarestatus.com/api/v2/status.json",
     "icon": "https://icons.duckduckgo.com/ip3/www.cloudflarestatus.com.ico",
     "slug": "cloudflare",
-    "status": "up",
+    "status": "down",
     "uptime": "100.00%",
-    "uptimeDay": "100.00%",
+    "uptimeDay": "99.99%",
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 246,
-    "timeDay": 130,
-    "timeWeek": 169,
-    "timeMonth": 301,
-    "timeYear": 246,
-    "dailyMinutesDown": {}
+    "time": 244,
+    "timeDay": 109,
+    "timeWeek": 159,
+    "timeMonth": 294,
+    "timeYear": 244,
+    "dailyMinutesDown": {
+      "2026-06-03": 0
+    }
   }
 ]
