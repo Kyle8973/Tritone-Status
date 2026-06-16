@@ -1,7 +1,7 @@
 url: https://www.theaudiodb.com/api/v1/json/2/search.php?s=coldplay
 status: up
 code: 200
-responseTime: 195
-lastUpdated: 2026-06-14T23:58:32.039Z
+responseTime: 157
+lastUpdated: 2026-06-16T00:20:42.778Z
 startTime: 2026-03-29T19:26:58.303Z
 generator: Upptime <https://github.com/upptime/upptime>
