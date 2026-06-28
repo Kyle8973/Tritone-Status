@@ -43,17 +43,17 @@
     "url": "https://www.githubstatus.com/api/v2/status.json",
     "icon": "https://icons.duckduckgo.com/ip3/www.githubstatus.com.ico",
     "slug": "git-hub-status-api",
-    "status": "down",
-    "uptime": "98.42%",
-    "uptimeDay": "99.97%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "95.30%",
-    "uptimeYear": "98.42%",
-    "time": 182,
-    "timeDay": 33,
-    "timeWeek": 120,
-    "timeMonth": 117,
-    "timeYear": 182,
+    "status": "up",
+    "uptime": "98.35%",
+    "uptimeDay": "93.43%",
+    "uptimeWeek": "99.06%",
+    "uptimeMonth": "95.08%",
+    "uptimeYear": "98.35%",
+    "time": 181,
+    "timeDay": 67,
+    "timeWeek": 121,
+    "timeMonth": 118,
+    "timeYear": 181,
     "dailyMinutesDown": {
       "2026-06-03": 292,
       "2026-06-04": 586,
@@ -61,7 +61,7 @@
       "2026-06-06": 624,
       "2026-06-17": 219,
       "2026-06-16": 45,
-      "2026-06-28": 0
+      "2026-06-28": 95
     }
   },
   {
@@ -182,15 +182,15 @@
     "url": "https://www.cloudflarestatus.com/api/v2/status.json",
     "icon": "https://icons.duckduckgo.com/ip3/www.cloudflarestatus.com.ico",
     "slug": "cloudflare",
-    "status": "down",
-    "uptime": "98.42%",
-    "uptimeDay": "99.99%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "95.30%",
-    "uptimeYear": "98.42%",
+    "status": "up",
+    "uptime": "98.35%",
+    "uptimeDay": "93.44%",
+    "uptimeWeek": "99.06%",
+    "uptimeMonth": "95.09%",
+    "uptimeYear": "98.35%",
     "time": 209,
-    "timeDay": 43,
-    "timeWeek": 165,
+    "timeDay": 71,
+    "timeWeek": 160,
     "timeMonth": 151,
     "timeYear": 209,
     "dailyMinutesDown": {
@@ -200,7 +200,7 @@
       "2026-06-06": 622,
       "2026-06-17": 218,
       "2026-06-16": 45,
-      "2026-06-28": 0
+      "2026-06-28": 94
     }
   }
 ]
