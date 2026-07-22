@@ -1,7 +1,7 @@
 url: https://lrclib.net/api/get?artist_name=test&track_name=test&album_name=test
-status: up
-code: 200
-responseTime: 59560
-lastUpdated: 2026-07-21T23:45:43.942Z
+status: down
+code: 502
+responseTime: 2684
+lastUpdated: 2026-07-22T00:10:26.063Z
 startTime: 2026-03-29T19:26:56.598Z
 generator: Upptime <https://github.com/upptime/upptime>
